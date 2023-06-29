@@ -6,6 +6,8 @@ from langchain.chat_models import ChatOpenAI
 import os
 import psycopg2
 from dotenv import load_dotenv, find_dotenv
+
+from handler import AgentExecutorHandler
 load_dotenv(find_dotenv())
 
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
@@ -16,7 +18,7 @@ db = SQLDatabase.from_uri(
     },
 )
 
-llm = ChatOpenAI(model_name="gpt-4")
+llm = ChatOpenAI(model_name="gpt-3.5-turbo")
 toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
 agent_executor = create_sql_agent(
@@ -26,4 +28,5 @@ agent_executor = create_sql_agent(
     handle_parsing_errors=True,
 )
 
-agent_executor.run("what are the securities hold by the user k67E4xKvMlhmleEa4pg9hlwGGNnnEeixPolGm")
+#agent_executor.run("what are the securities hold by the user k67E4xKvMlhmleEa4pg9hlwGGNnnEeixPolGm")
+agent_executor.run(**{"input":"what are the names (NOT the security_id) of the securities hold by the user k67E4xKvMlhmleEa4pg9hlwGGNnnEeixPolGm", "callbacks":[AgentExecutorHandler("asdfasdf", "asdfasdf")]})
