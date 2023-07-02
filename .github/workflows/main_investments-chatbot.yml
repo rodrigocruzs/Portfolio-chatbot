@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - 'Investments-chatbot/**'
+      - 'Whatsapp/**'
       - 'requirements.txt'
       - 'startup.txt'
   workflow_dispatch:
