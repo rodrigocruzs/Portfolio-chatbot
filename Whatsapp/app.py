@@ -1,9 +1,9 @@
 from flask import Flask, request
 
-from Whatsapp.functions import user_reply
-from Whatsapp.twilio_api import send_message
+from functions import user_reply
+from twilio_api import send_message
 
-qa = user_reply()
+qa = user_reply
 
 app = Flask(__name__)
 
@@ -21,12 +21,17 @@ def twilio():
     # if not create
     # create chat_history from the previous conversations
     # quetion and answer
+    
     res = qa(
-        {
-        'question': query,
-        'chat_history': {}
-        }
+        user_input=query  # Pass the query as the 'user_input' argument
     )
+
+    #res = qa(
+    #    {
+     #   'question': query,
+      #  'chat_history': {}
+       # }
+    #)
 
     print(res)
     

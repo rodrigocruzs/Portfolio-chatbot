@@ -32,9 +32,6 @@ def user_reply(user_input):
 
     response = agent_executor.run(user_input=user_input)
    
-    #chain = LLMChain(llm=chat, prompt=chat_prompt)
-    #response = chain.run(user_input=user_input)
-
     return response
 
  #agent_executor.run(**{"input":"what are the names (NOT the security_id) of the securities hold by the user k67E4xKvMlhmleEa4pg9hlwGGNnnEeixPolGm", "callbacks":[AgentExecutorHandler("asdfasdf", "asdfasdf")]})
