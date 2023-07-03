@@ -19,9 +19,11 @@ def send_message(to: str, message: str) -> None:
     Returns:
         - None
     '''
-
-    _ = client.messages.create(
+    try:
+        _ = client.messages.create(
             from_=os.getenv('FROM'),
             body=message,
             to=to
-    )
+        )
+    except Exception as e:
+        print(f"Error sending message: {e}")
