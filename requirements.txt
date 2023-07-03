@@ -15,3 +15,4 @@ librosa
 python-multipart
 pinecone-client
 tiktoken
+psycopg2
