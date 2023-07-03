@@ -18,8 +18,8 @@ password = os.environ.get("DB_PASSWORD")
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 # Build the connection string
-connection_string = f"postgresql+psycopg2://{user}:{password}@{host}/{dbname}"
-
+connection_string = f"postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}"
+print(connection_string)
 # Connect to the database
 db = SQLDatabase.from_uri(
     connection_string,
