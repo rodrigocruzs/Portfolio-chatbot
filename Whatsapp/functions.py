@@ -10,11 +10,21 @@ from handler import AgentExecutorHandler
 
 load_dotenv(find_dotenv())
 
+#Read environment variables
+host = os.environ.get("DB_HOST")
+dbname = os.environ.get("DB_NAME")
+user = os.environ.get("DB_USER")
+password = os.environ.get("DB_PASSWORD")
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+
+# Build the connection string
+connection_string = f"postgresql+psycopg2://{user}:{password}@{host}/{dbname}"
+
+# Connect to the database
 db = SQLDatabase.from_uri(
-    "postgresql+psycopg2://postgres:Rcsouza24@localhost/finance",
+    connection_string,
     engine_args={
-        "connect_args": {"sslmode": "disable"},
+        "connect_args": {"sslmode": "require"},
         },
     )
 
