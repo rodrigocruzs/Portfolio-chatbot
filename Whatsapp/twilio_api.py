@@ -23,7 +23,7 @@ def send_message(to: str, message: str) -> None:
         _ = client.messages.create(
             from_=os.getenv('FROM'),
             body=message,
-            to=to
+            to='whatsapp: +5511993133890'
         )
     except Exception as e:
         print(f"Error sending message: {e}")

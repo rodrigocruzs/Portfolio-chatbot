@@ -16,11 +16,6 @@ def twilio():
     query = request.form['Body']
     sender_id = request.form['From']
     print(sender_id, query)
-    # TODO
-    # get the user
-    # if not create
-    # create chat_history from the previous conversations
-    # quetion and answer
     
     res = qa(
         user_input=query  # Pass the query as the 'user_input' argument
