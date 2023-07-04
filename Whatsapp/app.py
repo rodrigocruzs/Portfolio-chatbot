@@ -3,7 +3,7 @@ from flask import Flask, request
 from functions import user_reply
 from twilio_api import send_message
 
-qa = user_reply()
+qa = user_reply
 
 app = Flask(__name__)
 

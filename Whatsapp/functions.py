@@ -30,7 +30,7 @@ db = SQLDatabase.from_uri(
 
 def user_reply(user_input):
 
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo")
+    llm = ChatOpenAI(model_name="gpt-4")
     toolkit = SQLDatabaseToolkit(db=db, llm=llm) 
 
     agent_executor = create_sql_agent(
@@ -44,4 +44,5 @@ def user_reply(user_input):
    
     return response
 
- #agent_executor.run(**{"input":"what are the names (NOT the security_id) of the securities hold by the user k67E4xKvMlhmleEa4pg9hlwGGNnnEeixPolGm", "callbacks":[AgentExecutorHandler("asdfasdf", "asdfasdf")]})
+#agent_executor.run({"input":"what are the names (NOT the security_id) of the securities hold by the users"})
+#agent_executor.run(**{"input":"what are the names (NOT the security_id) of the securities hold by the users", "callbacks":[AgentExecutorHandler("asdfasdf", "asdfasdf")]})
