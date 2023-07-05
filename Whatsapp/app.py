@@ -7,29 +7,29 @@ qa = user_reply
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+
+@app.route("/", methods=["GET", "POST"])
 def home():
-    return 'OK', 200
+    return "OK", 200
 
-@app.route('/twilio', methods=['POST'])
+
+@app.route("/twilio", methods=["POST"])
 def twilio():
-    query = request.form['Body']
-    sender_id = request.form['From']
+    query = request.form["Body"]
+    sender_id = request.form["From"]
     print(sender_id, query)
-    
-    res = qa(
-        user_input=query  # Pass the query as the 'user_input' argument
-    )
 
-    #res = qa(
+    res = qa(user_input=query)  # Pass the query as the 'user_input' argument
+
+    # res = qa(
     #    {
-     #   'question': query,
-      #  'chat_history': {}
-       # }
-    #)
+    #   'question': query,
+    #  'chat_history': {}
+    # }
+    # )
 
     print(res)
-    
-    send_message(sender_id, res['answer'])
 
-    return 'OK', 200
+    send_message(sender_id, res)
+
+    return "OK", 200
