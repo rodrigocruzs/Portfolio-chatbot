@@ -28,7 +28,7 @@ def twilio():
     # }
     # )
 
-    print(res)
+    #print(res)
 
     send_message(sender_id, res)
 
