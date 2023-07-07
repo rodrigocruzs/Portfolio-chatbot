@@ -29,9 +29,7 @@ db = SQLDatabase.from_uri(
 )
 
 
-def user_reply(user_input):
-    input_dict = json.loads(user_input)
-
+def user_reply(user_input: dict) -> str:
     llm = ChatOpenAI(model_name="gpt-3.5-turbo")
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
@@ -42,7 +40,7 @@ def user_reply(user_input):
         handle_parsing_errors=True,
     )
 
-    response = agent_executor.run(input_dict)
+    response = agent_executor.run(user_input)
 
     return response
 

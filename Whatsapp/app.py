@@ -32,10 +32,11 @@ def twilio():
     logging.info(request.form["Body"])
     query = request.form["Body"]
     sender_id = request.form["From"]
-    logging.info(sender_id, query)
+    logging.info(f"{sender_id}, {query}")
 
-    def target(sender_id, query):
-        res = qa(user_input=query)
+    def target(sender_id: str, query: str):
+        user_input = {"input": query}
+        res = qa(user_input=user_input)
         send_message(sender_id, res)
 
     thread = Thread(target=target, args=(sender_id, query))
