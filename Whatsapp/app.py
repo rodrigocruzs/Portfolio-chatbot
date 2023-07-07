@@ -13,6 +13,17 @@ def home():
     return "OK", 200
 
 
+@app.route("/twilio-test", methods=["POST"])
+def twilio_test():
+    print(request.form["Body"])
+    query = request.form["Body"]
+    sender_id = request.form["From"]
+
+    send_message(sender_id, f"you said: {query}")
+
+    return "OK", 200
+
+
 @app.route("/twilio", methods=["POST"])
 def twilio():
     print(request.form["Body"])
@@ -29,7 +40,7 @@ def twilio():
     # }
     # )
 
-    #print(res)
+    # print(res)
 
     send_message(sender_id, res)
 
