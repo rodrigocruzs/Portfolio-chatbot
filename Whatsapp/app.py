@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, request
 
 from functions import user_reply
@@ -5,6 +6,7 @@ from twilio_api import send_message
 from threading import Thread
 
 qa = user_reply
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
@@ -27,10 +29,10 @@ def twilio_test():
 
 @app.route("/twilio", methods=["POST"])
 def twilio():
-    print(request.form["Body"])
+    logging.info(request.form["Body"])
     query = request.form["Body"]
     sender_id = request.form["From"]
-    print(sender_id, query)
+    logging.info(sender_id, query)
 
     def target(sender_id, query):
         res = qa(user_input=query)
