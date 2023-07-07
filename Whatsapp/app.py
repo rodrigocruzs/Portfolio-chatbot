@@ -15,6 +15,7 @@ def home():
 
 @app.route("/twilio", methods=["POST"])
 def twilio():
+    print(request.form["Body"])
     query = request.form["Body"]
     sender_id = request.form["From"]
     print(sender_id, query)
