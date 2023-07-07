@@ -2,6 +2,7 @@ from flask import Flask, request
 
 from functions import user_reply
 from twilio_api import send_message
+from threading import Thread
 
 qa = user_reply
 
@@ -31,17 +32,11 @@ def twilio():
     sender_id = request.form["From"]
     print(sender_id, query)
 
-    res = qa(user_input=query)  # Pass the query as the 'user_input' argument
+    def target(sender_id, query):
+        res = qa(user_input=query)
+        send_message(sender_id, res)
 
-    # res = qa(
-    #    {
-    #   'question': query,
-    #  'chat_history': {}
-    # }
-    # )
-
-    # print(res)
-
-    send_message(sender_id, res)
+    thread = Thread(target=target, args=(sender_id, query))
+    thread.start()
 
     return "OK", 200
