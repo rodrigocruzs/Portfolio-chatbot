@@ -20,9 +20,9 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 app.secret_key = os.environ.get("APP_SECRET_KEY")
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}"
 #local db
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Rcsouza24@localhost/finance"
+#app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Rcsouza24@localhost/finance"
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
