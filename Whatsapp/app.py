@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 app.secret_key = os.environ.get("APP_SECRET_KEY")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL")
 #local db
 #app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Rcsouza24@localhost/finance"
 db = SQLAlchemy(app)
