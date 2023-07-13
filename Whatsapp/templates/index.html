@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bank Chatbot</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="button" href="{{ url_for('login') }}">Login</a>
+      <a class="button" href="{{ url_for('signup') }}">Sign Up</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1>Your Investments AI Assistant</h1>
+      <p class="subtitle">Chat with your investments portfolio in natural language with GregAI.</p>
+
+      <h2>How It Works</h2>
+
+      <ul>
+        <li>Connect Your Accounts: Securely connect your brokerage accounts using Plaid. We prioritize the security of your information and ensure encrypted transactions.</li>
+        <li>Portfolio Overview: Get a clear view of your investment portfolio on your Whatsapp. Track your current value, asset allocation, and performance metrics all in one place.</li>
+        <li>Natural Language Interaction: Communicate with GregAI using plain English. Simply ask questions about your investments or request specific information, and our AI chatbot will provide you with the answers you need</li>
+      </ul>
+
+      <p>Ready to get started?</p>
+    </div>
+  </main>
+</body>
+</html>

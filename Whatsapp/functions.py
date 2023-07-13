@@ -8,7 +8,6 @@ import psycopg2
 from dotenv import load_dotenv, find_dotenv
 from handler import AgentExecutorHandler
 
-
 load_dotenv(find_dotenv())
 
 # Read environment variables
