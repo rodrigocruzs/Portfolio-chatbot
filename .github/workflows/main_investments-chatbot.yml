@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Python version
         uses: actions/setup-python@v1
@@ -37,7 +37,7 @@ jobs:
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
       - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: python-app
           path: |
@@ -53,7 +53,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: python-app
           path: .
@@ -68,9 +68,10 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
+        #uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@85270a1854658d167ab239bce43949edb336fa7c
         id: deploy-to-webapp
         with:
           app-name: 'Investments-chatbot'
-          slot-name: 'Production'
+          #slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4A5BDEC46658428EA41E93E99EBD220D }}
