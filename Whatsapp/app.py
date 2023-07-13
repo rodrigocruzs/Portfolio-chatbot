@@ -8,11 +8,6 @@ from twilio_api import send_message
 from threading import Thread
 import os
 
-# Read environment variables
-host = os.environ.get("DB_HOST")
-dbname = os.environ.get("DB_NAME")
-user = os.environ.get("DB_USER")
-
 
 qa = user_reply
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 app.secret_key = os.environ.get("APP_SECRET_KEY")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 #local db
 #app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Rcsouza24@localhost/finance"
 db = SQLAlchemy(app)
@@ -29,7 +24,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-class User(UserMixin, db.Model):
+class Customer(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
@@ -42,7 +37,7 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return Customer.query.get(int(user_id))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -50,7 +45,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        user = User.query.filter_by(username=username).first()
+        user = Customer.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
             flash('You have logged in successfully!', 'success')
@@ -65,13 +60,13 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
-        existing_user = User.query.filter_by(username=username).first()
+        print(username, password)
+        existing_user = Customer.query.filter_by(username=username).first()
         if existing_user:
             flash('Username already exists', 'error')
             return redirect(url_for('signup'))
 
-        user = User(username=username)
+        user = Customer(username=username)
         user.set_password(password)
 
         db.session.add(user)
