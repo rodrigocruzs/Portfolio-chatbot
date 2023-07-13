@@ -16,3 +16,4 @@ python-multipart
 pinecone-client
 tiktoken
 psycopg2
+flask_login

@@ -1,6 +1,6 @@
 import logging
 from flask import Flask, request, redirect, url_for, render_template, flash
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from flask.ext.login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from functions import user_reply
