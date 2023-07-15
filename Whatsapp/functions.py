@@ -6,7 +6,6 @@ from langchain.chat_models import ChatOpenAI
 import os
 import psycopg2
 from dotenv import load_dotenv, find_dotenv
-from handler import AgentExecutorHandler
 
 load_dotenv(find_dotenv())
 
