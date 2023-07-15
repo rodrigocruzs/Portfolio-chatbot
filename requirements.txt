@@ -120,3 +120,5 @@ virtualenv-clone==0.5.7
 websockets==11.0.3
 Werkzeug==2.3.6
 yarl==1.9.2
+firebase-admin==5.0.1
+```
