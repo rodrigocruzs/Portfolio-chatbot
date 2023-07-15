@@ -7,7 +7,15 @@ from functions import user_reply
 from twilio_api import send_message
 from threading import Thread
 import os
+import firebase_admin
+import json
+from firebase_admin import credentials, auth
 
+#initialize the 'firebase_admin' module with the credentials
+cred_str = os.environ.get("FIREBASE_CREDENTIALS")
+cred_dict = json.loads(cred_str)
+cred = credentials.Certificate(cred_dict)
+firebase_admin.initialize_app(cred)
 
 qa = user_reply
 logging.basicConfig(level=logging.INFO)
@@ -42,40 +50,77 @@ def load_user(user_id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
 
-        user = Customer.query.filter_by(username=username).first()
-        if user and user.check_password(password):
+        try:
+            user = auth.get_user_by_email(email)
+            # Verify user credentials
+            auth.verify_password(password, user.password)
+
+            # Log the user in
             login_user(user)
+            
             flash('You have logged in successfully!', 'success')
-            return redirect(url_for('home'))  # or wherever you want to redirect after login
-
-        flash('Invalid username or password', 'error')
-
+            return redirect(url_for('home'))
+        except auth.AuthError as e:
+            # Handle authentication error
+            flash('Invalid email or password', 'error')
+            return redirect(url_for('login'))
     return render_template('login.html')
+
+    # if request.method == 'POST':
+    #     username = request.form['username']
+    #     password = request.form['password']
+
+    #     user = Customer.query.filter_by(username=username).first()
+    #     if user and user.check_password(password):
+    #         login_user(user)
+    #         flash('You have logged in successfully!', 'success')
+    #         return redirect(url_for('home'))  # or wherever you want to redirect after login
+
+    #     flash('Invalid username or password', 'error')
+
+    # return render_template('login.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        print(username, password)
-        existing_user = Customer.query.filter_by(username=username).first()
-        if existing_user:
-            flash('Username already exists', 'error')
+
+        try:
+            user = auth.create_user(email=email, password=password)
+            # Additional logic if user creation is successful
+            flash('You have signed up successfully!', 'success')
+            return redirect(url_for('login'))
+        except Exception as e:
+            # Handle error if user creation fails
+            flash('Error creating user: ' + str(e), 'error')
             return redirect(url_for('signup'))
-
-        user = Customer(username=username)
-        user.set_password(password)
-
-        db.session.add(user)
-        db.session.commit()
-
-        flash('You have signed up successfully!', 'success')
-        return redirect(url_for('login'))
-
+        
     return render_template('signup.html')
+    
+    
+    # if request.method == 'POST':
+    #     username = request.form['username']
+    #     password = request.form['password']
+    #     print(username, password)
+    #     existing_user = Customer.query.filter_by(username=username).first()
+    #     if existing_user:
+    #         flash('Username already exists', 'error')
+    #         return redirect(url_for('signup'))
+
+    #     user = Customer(username=username)
+    #     user.set_password(password)
+
+    #     db.session.add(user)
+    #     db.session.commit()
+
+    #     flash('You have signed up successfully!', 'success')
+    #     return redirect(url_for('login'))
+
+    # return render_template('signup.html')
 
 @app.route('/logout')
 @login_required
