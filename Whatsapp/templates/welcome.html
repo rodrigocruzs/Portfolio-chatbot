@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Welcome</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome, {{ name }}!</h1>
+      <form action="{{ url_for('logout') }}" method="post">
+        <input type="submit" value="Logout">
+      </form>
+    </div>
+  </body>
+</html>

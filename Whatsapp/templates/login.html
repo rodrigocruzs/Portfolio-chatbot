@@ -3,6 +3,15 @@
 <head>
     <title>Login - Investment Chatbot</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+    <script>
+        // Initialize Firebase
+        var firebaseConfig = {
+            // Your Firebase configuration here
+        };
+        firebase.initializeApp(firebaseConfig);
+        </script>
     <style>
         .container {
             display: flex;
@@ -29,12 +38,39 @@
         <div class="container">
             <h1>Login</h1>
             <form method="POST">
-                <label for="username">Username</label><br>
-                <input type="text" id="username" name="username" required><br>
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email" required><br>
                 <label for="password">Password</label><br>
                 <input type="password" id="password" name="password" required><br>
                 <input type="submit" value="Login">
             </form>
+
+            <script>
+                document.getElementById('login-form').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var email = document.getElementById('email').value;
+                    var password = document.getElementById('password').value;
+                    firebase.auth().signInWithEmailAndPassword(email, password)
+                        .then((user) => {
+                            // User logged in, you can redirect to another page
+                            window.location.href = '/welcome';
+                        })
+                        .catch((error) => {
+                            // An error occurred
+                            alert(error.message);
+                        });
+                });
+                </script>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="message">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
         </div>
     </main>
 </body>
