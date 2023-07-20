@@ -8,14 +8,35 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+    <style>
+      .chat-container {
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .logout-btn {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+      }
+    </style>
+
     <title>Welcome</title>
   </head>
   <body>
     <div class="container">
-      <h1>Welcome, {{ name }}!</h1>
-      <form action="{{ url_for('logout') }}" method="post">
+      <form class="logout-btn" action="{{ url_for('logout') }}" method="post">
         <input type="submit" value="Logout">
       </form>
+      
+      <div class="chat-container">
+        <h1>Welcome, {{ name }}!</h1>
+        <p>I'm GregAI, your personal investment assistant. I'm here to help simplify your investment management. Let's start by connecting to your bank account. For this, we use Plaid, a secure and easy-to-use service.</p>
+        <button class="btn btn-primary" id="connect-with-plaid">Connect with Plaid</button>
+      </div>
     </div>
   </body>
 </html>
