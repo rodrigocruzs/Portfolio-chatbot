@@ -1,3 +1,6 @@
+.portfolio/
+Whatsapp/__pycache__/
+
 # Logs
 .port
 logs
