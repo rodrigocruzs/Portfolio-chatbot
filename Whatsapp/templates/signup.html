@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Signup - Investment Chatbot</title>
+    <title>Sign up - GregAI</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
-    <script>
-        // Initialize Firebase
-        var firebaseConfig = {
-            // Your Firebase configuration here
-        };
-        firebase.initializeApp(firebaseConfig);
-        </script>
     <style>
         .container {
             display: flex;
@@ -29,39 +20,24 @@
 <body>
     <header>
         <nav>
-            <a class="button" href="{{ url_for('login') }}">Login</a>
-            <a class="button" href="{{ url_for('signup') }}">Sign Up</a>
+            <a class="login-button" href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('home') }}" class="home-button">&#8592; Home</a>
         </nav>
     </header>
 
     <main>
-        <div class="container">
-            <h1>Sign Up</h1>
-            <form action="{{ url_for('signup') }}" method="POST">
-                <input type="text" id="name" class="fadeIn second" name="name" placeholder="name">
-                <input type="email" id="login" class="fadeIn second" name="email" placeholder="email">
-                <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
-                <input type="submit" class="fadeIn fourth" value="Sign Up">
-              </form>
-            
-              <script>
-                document.getElementById('signup-form').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    var email = document.getElementById('email').value;
-                    var password = document.getElementById('password').value;
-                    firebase.auth().createUserWithEmailAndPassword(email, password)
-                        .then((user) => {
-                            // User created, you can redirect to another page
-                            window.location.href = '/welcome';
-                        })
-                        .catch((error) => {
-                            // An error occurred
-                            alert(error.message);
-                        });
-                });
-                </script>
-
-
+        <div class="signup-container">
+            <h1 class="login-title">Create an account with GregAI</h1>
+            <p class="account-link">Already have an account? <a class="login-link" href="{{ url_for('login') }}">Log in.</a></p>
+            <form id="signup-form" action="{{ url_for('signup') }}" method="POST">
+                <label for="name">Name</label><br>
+                <input type="text" id="name" name="name" required><br>
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email" required><br>
+                <label for="password">Password</label><br>
+                <input type="password" id="password" name="password" required><br>
+                <input type="submit" value="Create account">
+            </form>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             <ul class="messages">
@@ -73,5 +49,22 @@
             {% endwith %}
         </div>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('signup-form');
+            var inputs = form.querySelectorAll('input[type="text"], input[type="password"], input[type="email"]');
+            var submitButton = form.querySelector('input[type="submit"]');
+
+            form.addEventListener('keyup', function() {
+                for (var i = 0; i < inputs.length; i++) {
+                    if (inputs[i].value === '') {
+                        submitButton.style.backgroundColor = '#B7B7B7'; // original color
+                        return;
+                    }
+                }
+                submitButton.style.backgroundColor = '#FFF'; // color when fields are filled
+            });
+        });
+    </script>
 </body>
 </html>

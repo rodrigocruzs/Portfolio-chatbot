@@ -28,11 +28,13 @@ db = SQLDatabase.from_uri(
     },
 )
 
+#small change
 
 def user_reply(user_input: dict) -> str:
     llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.3)
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
     prefix = "You are an experienced financial advisor and your goal is the help your client to better understand about investments and their portfolio."
+    suffix = "Please engage in a conversation with the client and suggest more questions. You should be friendly and easy to talk to."
 
     agent_executor = create_sql_agent(
         llm=llm,
@@ -40,6 +42,7 @@ def user_reply(user_input: dict) -> str:
         verbose=True,
         agent_type = AgentType.OPENAI_FUNCTIONS,
         prefix = prefix,
+        suffix = suffix,
         handle_parsing_errors=True,
     )
 
