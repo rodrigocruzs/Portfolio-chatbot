@@ -207,3 +207,51 @@ p.account-link {
   text-decoration: none;
   font-size: 14px;
 }
+
+.p-2.top-bar button {
+  top: 20px;
+  right: 20px;
+  color: #B7B7B7;
+  background: transparent;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-block;
+  width: auto;
+}
+
+.account-button {
+  color: #B7B7B7;
+  background: transparent;
+  border: 0.5px solid #B7B7B7;
+  border-radius: 8px;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 10px;
+  margin-left: 25px;
+}
+
+body.welcome-page {
+  background-color: #B7B7B7;
+}
+
+.d-flex.flex-row.flex-grow-1 {
+  background-color: #f8f8f8; /* This is a white color */
+}
+
+.logout-btn {
+  width: auto;
+  color: #393939;
+  background-color: transparent;
+  text-decoration: none;
+  border: none;
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  padding: 2px 10px;
+}
+
+h1.dashboard-title {
+  text-align: left;
+}
