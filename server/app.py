@@ -2,7 +2,6 @@ import logging
 from db import db, init_app, Customer, InvestmentSecurity, InvestmentHolding, InvestmentTransaction, InvestmentView, BankAccount, PlaidItem
 from flask import Flask, request, redirect, url_for, render_template, flash, request, jsonify, abort, current_app
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from werkzeug.security import check_password_hash
 from functions import stock_analysis
 from twilio_api import send_message
 from threading import Thread

@@ -117,7 +117,7 @@ uvicorn==0.22.0
 virtualenv==20.23.0
 virtualenv-clone==0.5.7
 websockets==11.0.3
-Werkzeug==2.3.6
+Werkzeug==2.0.0
 yarl==1.9.2
 firebase-admin==5.0.1
 flask-migrate==3.1.0
