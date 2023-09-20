@@ -3,13 +3,12 @@ from flask_migrate import Migrate
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime, timedelta
-from flask_bcrypt import Bcrypt
 from flask_login import UserMixin
 from flask import current_app
+import bcrypt
 
 db = SQLAlchemy()
 migrate = Migrate()
-bcrypt = Bcrypt()
 
 def init_app(app):
     """Initialize the database."""
@@ -36,10 +35,10 @@ class Customer(UserMixin, db.Model):
     investment_transactions = db.relationship('InvestmentTransaction', backref='customer', lazy=True)
 
     def set_password(self, password):
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     def check_password(self, password):
-        return bcrypt.check_password_hash(self.password, password)
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
     # Method to check if the user is in the trial period
     def in_trial_period(self):

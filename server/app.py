@@ -19,6 +19,7 @@ from plaid.model.institutions_get_by_id_request import InstitutionsGetByIdReques
 from plaid.api import plaid_api
 import logging
 import os
+from dotenv import load_dotenv
 import datetime as dt
 from datetime import datetime, timedelta
 import json
@@ -28,6 +29,7 @@ import stripe
 
 qa = stock_analysis
 logging.basicConfig(level=logging.INFO)
+load_dotenv()
 
 app = Flask(__name__, static_folder='../client', template_folder='../client/html')
 app.secret_key = os.environ.get("APP_SECRET_KEY")
@@ -61,7 +63,7 @@ PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
 
 # Configure Stripe API
-stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
+stripe.api_key = os.environ.get('STRIPE_API_KEY')
 STRIPE_ENDPOINT_SECRET = os.environ.get('STRIPE_ENDPOINT_SECRET')
 
 def empty_to_none(field):
@@ -657,7 +659,7 @@ def get_chatbot_response():
 @app.route('/create-checkout-session', methods=['POST'])
 @login_required
 def create_checkout_session():
-    YOUR_DOMAIN = "https://trygreg.com/"
+    YOUR_DOMAIN = "https://trygreg.com"
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{
@@ -733,7 +735,7 @@ def success():
 
 @app.route('/cancel/')
 def cancel():
-    return "Payment was cancelled."
+    return render_template("chat.html")
 
 
 
