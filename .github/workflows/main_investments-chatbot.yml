@@ -9,7 +9,8 @@ on:
     branches:
       - main
     paths:
-      - 'Whatsapp/**'
+      - 'client/**'
+      - 'server/**'
       - 'requirements.txt'
       - 'startup.txt'
   workflow_dispatch:
