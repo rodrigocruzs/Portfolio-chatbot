@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0" />
+		<meta name="description" content="A conversational AI system that help you with your investments. Connect your brokerage accounts and effortlessly access insights on performance, allocation, and tailored advice. Empower your financial decisions with AI-driven recommendations." />
+		<meta property="og:title" content="GregAI" />
+		<meta property="og:image" content="https://openai.com/content/images/2022/11/ChatGPT.jpg" />
+		<meta
+			property="og:description"
+			content="A conversational AI investment assistant" />
+		<meta property="og:url" content="https://chat.acy.dev" />
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" />
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="{{ url_for('static', filename='img/favicon-32x32.png') }}" />
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="{{ url_for('static', filename='img/favicon-16x16.png') }}" />
+		<link rel="manifest" href="{{ url_for('static', filename='img/site.webmanifest') }}" />
+		<link
+			rel="stylesheet"
+			href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/styles/base16/dracula.min.css" />
+		<title>GregAI</title>
+	</head>
+
+	<body data-urlprefix="{{ url_prefix}}">
+		<div class="main-container">
+			<div class="box sidebar">
+				<div class="new-conversation-button">
+					<button class="button" onclick="new_conversation()">
+						<i class="fa-regular fa-plus"></i>
+						<span>{{('New Conversation')}}</span>
+					</button>
+
+				</div>	
+				<div class="top">
+					<div class="spinner"></div>
+				</div>
+				<div class="sidebar-footer">
+					<div id="account-list"></div>
+					<button class="button" onclick="connectPlaid()">
+						<i class="fa-regular fa-link"></i>
+						<span>{{('Connect Account')}}</span>
+					</button>
+					{% if not is_premium_user %}
+					<div class="premium-link-container" style="margin-top: 24px;">
+						<div class="free-trial-count"><span>Your free trial ends in {{ days_left }} days</span></div>
+						<a href="#" id="checkout-button" class="premium-link">
+							<span>{{('Become a Premium User')}}</span>
+							<img src="{{ url_for('static', filename='img/favicon-32x32.png') }}" style="margin-left: 8px; height: 20px; width: 20px; vertical-align: middle;"/>
+						</a>
+					</div>
+					{% endif %}
+					<div class="settings-container">
+						<div class="checkbox field">
+							<span>{{('Dark Mode')}}</span>
+							<input type="checkbox" id="theme-toggler" />
+							<label for="theme-toggler"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="conversation">
+				<div class="stop-generating stop-generating-hidden">
+					<button class="button" id="cancelButton">
+						<span>{{('Stop Generating')}}</span>
+					</button>
+				</div>
+				<div class="box" id="messages"></div>
+				<div class="user-input">
+					<div class="box input-box">
+						<textarea
+							id="message-input"
+							placeholder="{{('Ask a question')}}"
+							cols="30"
+							rows="10"
+							style="white-space: pre-wrap"></textarea>
+						<div id="send-button">
+							<i class="fa-regular fa-paper-plane-top"></i>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="options-container">
+						<div class="buttons">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="menu-button">
+			<i class="fa-solid fa-bars"></i>
+		</div>
+
+		<!-- scripts -->
+		<script>
+			window.conversation_id = "{{ chat_id }}";
+		</script>
+		<script src="{{ url_for('static', filename='js/icons.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/plaid-link.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/chat.js') }}" defer></script>
+		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/markdown-it@latest/dist/markdown-it.min.js"></script>
+		<script src="{{ url_for('static', filename='js/highlight.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/highlightjs-copy.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/theme-toggler.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/sidebar-toggler.js') }}"></script>
+		<script src="https://js.stripe.com/v3/"></script>
+		<script src="{{ url_for('static', filename='js/stripe.js') }}" defer></script>
+	</body>
+</html>

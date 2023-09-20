@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GregAI - Your personal investment manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <title>Welcome</title>
+
+  </head>
+  <!-- <body class="welcome-page"> -->
+  <body class="{{ url_prefix}}">   
+    <div class="main-container">
+            <!-- <div class="container flex-grow-1"> -->
+                <div class="chat-container">
+                    <h1 class="dashboard-title">Welcome, {{ name }}!</h1>
+                    <p>I'm GregAI, your personal investment assistant. <br>I'm here to be your investments co-pilot.</p>
+                    <p>Let's start by connecting to your banks and investment accounts. For this, we use Plaid, a secure and easy-to-use service.</p>
+                    <div id="plaid-button-root">
+                        <button class="button" onclick="connectPlaid()">
+                            <i class="fa-regular fa-trash"></i>
+                            <span>{{('Connect Account')}}</span>
+                        </button>
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+    <!-- React and ReactDOM Libraries -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script src="{{ url_for('static', filename='js/plaid-link.js') }}"></script>
+
+  </body>
+</html>

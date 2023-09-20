@@ -1,0 +1,32 @@
+.buttons {
+	display: flex;
+	justify-content: left;
+}
+
+.home-button {
+    position: absolute;
+    left: 20px;
+    color: #B7B7B7;
+    background: transparent;
+    padding: 8px 12px;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .right-buttons {
+    display: flex;
+    margin-left: auto;
+}
+
+.big-button {
+  display: flex;
+	padding: 8px 0px;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid;
+	border-radius: var(--border-radius-1);
+	width: 60%;
+	background: transparent;
+	cursor: pointer;
+  font-size: 18px;
+}

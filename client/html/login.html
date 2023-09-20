@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - GregAI</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body id="landing-page">
+    <header>
+        <nav>
+            <a class="signup-button" href="{{ url_for('signup') }}">Create account</a>
+            <a href="{{ url_for('home') }}" class="home-button">&#8592; Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="center-rectangle">
+        <div class="login-container">
+            <h1 class="login-title">Login to GregAI</h1>
+            <form id="login-form" action="{{ url_for('login') }}" method="POST">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <input type="submit" value="Login">
+            </form>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('login-form');
+            var inputs = form.querySelectorAll('input[type="text"], input[type="password"], input[type="email"]');
+            var submitButton = form.querySelector('input[type="submit"]');
+
+            form.addEventListener('keyup', function() {
+                for (var i = 0; i < inputs.length; i++) {
+                    if (inputs[i].value === '') {
+                        submitButton.style.backgroundColor = '#F5F5F5'; // original color
+                        return;
+                    }
+                }
+                submitButton.style.backgroundColor = '#FFF'; // color when fields are filled
+            });
+        });
+    </script>
+</body>
+</html>

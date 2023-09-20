@@ -1,5 +1,6 @@
 .portfolio/
-Whatsapp/__pycache__/
+Portfolio-chatbot/__pycache__/
+Portfolio-chatbot/migrations/
 
 # Logs
 .port

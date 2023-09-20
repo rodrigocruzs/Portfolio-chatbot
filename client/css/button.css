@@ -1,0 +1,63 @@
+.button {
+	display: flex;
+	padding: 8px 0px;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--conversations);
+	border-radius: var(--border-radius-1);
+	width: 100%;
+	background: transparent;
+	cursor: pointer;
+	margin-top: 20px;
+}
+
+.button span {
+	color: var(--colour-3);
+	font-size: 0.875rem;
+}
+
+.button i::before {
+	margin-right: 8px;
+}
+
+@media screen and (max-width: 990px) {
+	.button span {
+		font-size: 0.75rem;
+	}
+}
+
+.new-conversation-button {
+	margin-bottom: 14px;
+}
+
+.login-button {
+	margin-right: 18px;
+}
+
+.signup-button {
+	margin-left: 12px;
+}
+
+#checkout-button {
+	margin-top: 18px;
+	text-decoration: none; 
+	font-weight: 500; 
+	font-size: 15px;
+	padding-top: 10px;
+}
+
+.theme-light .premium-link {
+    color: var(--colour-2); /* or any other color variable you prefer */
+}
+
+.theme-dark .premium-link {
+    color: var(--colour-4); /* or any other color variable you prefer */
+}
+
+.theme-light .free-trial-count {
+	color: var(--colour-2); /* or any other color variable you prefer */
+}
+
+.theme-dark .free-trial-count {
+	color: var(--colour-5); /* or any other color variable you prefer */
+}

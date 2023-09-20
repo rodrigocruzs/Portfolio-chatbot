@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0" />
+    <meta name="description" content="A conversational AI system that help you with your investments. Connect your brokerage accounts and effortlessly access insights on performance, allocation, and tailored advice. Empower your financial decisions with AI-driven recommendations." />
+    <meta property="og:title" content="GregAI" />
+    <meta property="og:image" content="https://openai.com/content/images/2022/11/ChatGPT.jpg" />
+    <meta
+        property="og:description"
+        content="A conversational AI investment assistant" />
+    <meta property="og:url" content="https://chat.acy.dev" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+    <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" />
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="{{ url_for('static', filename='img/favicon-32x32.png') }}" />
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="{{ url_for('static', filename='img/favicon-16x16.png') }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='img/site.webmanifest') }}" />
+    <link
+        rel="stylesheet"
+        href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/styles/base16/dracula.min.css" />
+  <title>Payment Successful</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body id="landing-page">
+    <header>
+        <nav>
+          <!-- <a class="login-button" href="{{ url_for('login') }}">Login</a>
+          <a class="signup-button" href="{{ url_for('signup') }}">Create account</a> -->
+        </nav>
+      </header>
+    <main>
+      <div class="home-container">
+        <div class="center-rectangle">
+          <h1 id="thank-you-payment">Thank You for Your Payment!</h1>
+          <div class="paragraph-homepage">
+            <p>We appreciate your support. We built Greg to reduce the friction of investments.</p>
+            <p>If you encounter any issues or want to send feedback, feel free to reach out to us at <a href="mailto:hello@gregai.com">hello@gregai.com</a>.</p>
+          </div>
+          <div class="redirect-link">
+            <button class="big-button">
+                <a href="{{ url_for('chat') }}">&#8592; Chat with Greg</a>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

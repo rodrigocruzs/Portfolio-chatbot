@@ -1,0 +1,39 @@
+form input[type="text"], 
+form input[type="email"], 
+form input[type="password"] {
+    width: 400px;
+    height: 35px;
+    font-size: 14px;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #474747;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-style: solid;
+    border-width: 0.5px;
+}
+
+form input[type="submit"] {
+    display: block;
+    width: 400px;
+    height: 40px;
+    background: #fff;
+    color: #393939; 
+    border: 1px solid #393939;
+    border-radius: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold; 
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 30px;
+}
+
+
+
+/* #signup-form input {
+    margin-bottom: 15px;
+} */

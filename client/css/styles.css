@@ -1,0 +1,206 @@
+/* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+@import "./buttons.css";
+@import "./forms.css";
+@import "./global.css";
+@import "./hljs.css";
+@import "./main.css";
+@import "./sidebar.css";
+@import "./conversation.css";
+@import "./message.css";
+@import "./stop-generating.css";
+@import "./typing.css";
+@import "./checkbox.css";
+@import "./label.css";
+@import "./button.css";
+@import "./dropdown.css";
+@import "./field.css";
+@import "./select.css";
+@import "./options.css";
+@import "./settings.css";
+@import "./message-input.css";
+
+#landing-page {
+    background-color: #f5f5f5;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+  
+  header {
+    background-color: transparent;
+    padding: 10px;
+  }
+  
+  nav {
+    margin-top: 20px;
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .home-container {
+    max-width: 1100px;
+    margin: 20px auto;
+    text-align: left;
+    margin-bottom: 40px;
+  }
+
+  .signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+  }
+
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+  }
+
+  h1 {
+    font-size: 24px;
+    text-align: center; 
+    color: #474747;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 30px;
+    margin-bottom: 20px; 
+    color: #474747;
+  }
+  h3  {
+    font-size: 18px;
+    color: #474747;
+    margin-top: 20px;
+  }
+
+
+
+  .content-image {
+    width: 45%;
+    height: auto;
+  }
+
+  .login-title {
+    font-size: 20px;
+    text-align: center;
+    color: #474747;
+  }
+
+  label {
+    font-weight: normal;
+  }
+  
+  .login-container h1.login-title {
+    text-align: left;
+    padding-left: 15px;
+  }
+  
+  .form-input {
+    width: 100%;
+    height: 30px;
+    border-radius: 8px;
+    padding: 4px;
+    box-sizing: border-box;
+  }
+
+  h1.dashboard-title {
+    text-align: left;
+  }
+
+  .center-rectangle {
+    text-align: center; 
+    max-width: 600px; 
+    margin: 0 auto; 
+    background-color: #fff; 
+    padding: 40px; 
+    border-radius: 10px; 
+  }
+
+
+.question-box {
+  background-color: #F1F8EA;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px; 
+  margin-bottom: 20px; 
+  width: auto;
+  height: 50px;
+  padding: 10px;
+  box-sizing: border-box; /* This ensures that padding and border are included in the element's total width and height */
+  display: flex; /* Using flexbox to center the text both vertically and horizontally */
+  align-items: center; /* Centering text vertically */
+  justify-content: center; /* Centering text horizontally */
+  text-align: center; /* Centering the text */
+  overflow: hidden;
+}
+
+.warning {
+  background-color: #F5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 30px; 
+  margin-bottom: 20px; 
+  width: auto;
+  height: auto;
+  padding: 10px;
+  box-sizing: border-box; /* This ensures that padding and border are included in the element's total width and height */
+  align-items: center; /* Centering text vertically */
+  justify-content: center; /* Centering text horizontally */
+  text-align: center; /* Centering the text */
+  overflow: hidden;
+
+}
+
+.paragraph-homepage {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: #474747;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 30vh;
+  max-width: 600px;
+  margin: 0 0;
+  padding: 10px;
+  border-radius: 15px;
+  line-height: 1.6; 
+}
+
+#thank-you-payment {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 40px;
+}
+
+.redirect-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* or set a specific height if needed */
+  height: 20vh;
+}
+
+.free-trial-count {
+  padding-bottom: 10px;
+  font-size: 14px;
+  background-color: #F5f5f5;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  overflow: hidden;
+  padding-top: 8px;
+  margin-bottom: 10px;
+
+}
