@@ -62,7 +62,7 @@ PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
 
 # Configure Stripe API
-stripe.api_key = "sk_test_51NrlkKCp04lVZoC1b8GqGpTbToP3ql8zMDzSpoD6GdvCJ8Y3YCfk6MtKmkQFt86vEdHUDPOXG5uH3PURm4qqQ1jJ00XOcyAgm6"
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 STRIPE_ENDPOINT_SECRET = os.environ.get('STRIPE_ENDPOINT_SECRET')
 
 def empty_to_none(field):
@@ -305,7 +305,7 @@ def subscribe_page():
 @login_required
 def chat():
     # Calculate the number of days left in the trial period
-    trial_period_days = 7  # Adjust this value as per your trial period duration
+    trial_period_days = 7 
     trial_end_date = current_user.subscription_start_date + timedelta(days=trial_period_days)
     days_left = (trial_end_date - datetime.utcnow()).days
 
@@ -363,9 +363,7 @@ def create_link_token():
 # Route to exchange public_token for an access_token
 @app.route('/api/set_access_token', methods=['POST'])
 def get_access_token():
-    # global access_token
-    # global item_id
-    # global transfer_id
+
     public_token = request.json['public_token']
 
     # Get user_id from the session or other authentication mechanism
@@ -660,7 +658,7 @@ def get_chatbot_response():
 @app.route('/create-checkout-session', methods=['POST'])
 @login_required
 def create_checkout_session():
-    YOUR_DOMAIN = "http://127.0.0.1:5000"
+    YOUR_DOMAIN = "https://trygreg.com/"
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{
