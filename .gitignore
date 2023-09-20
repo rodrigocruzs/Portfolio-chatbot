@@ -1,6 +1,8 @@
 .portfolio/
 Portfolio-chatbot/__pycache__/
 Portfolio-chatbot/migrations/
+Portfolio-chatbot/.env
+
 
 # Logs
 .port
