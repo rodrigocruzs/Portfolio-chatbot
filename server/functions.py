@@ -31,7 +31,7 @@ load_dotenv(find_dotenv())
 host = os.environ.get("DB_HOST")
 dbname = os.environ.get("DB_NAME")
 user = os.environ.get("DB_USER_LANGCHAIN")
-password = quote(os.environ.get("DB_PASSWORD_LANGCHAIN"))
+password = os.environ.get("DB_PASSWORD_LANGCHAIN")
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 # Build the connection string
