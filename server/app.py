@@ -56,7 +56,7 @@ PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
 # Use `development` to test with live users and credentials and `production`
 # to go live
-PLAID_ENV = os.getenv('PLAID_ENV', 'development')
+PLAID_ENV = os.getenv('PLAID_ENV')
 PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
 
@@ -80,6 +80,7 @@ if PLAID_ENV == 'development':
 
 if PLAID_ENV == 'production':
     host = plaid.Environment.Production
+
 
 # Parameters used for the OAuth redirect Link flow.
 #
@@ -657,7 +658,8 @@ def get_chatbot_response():
 @app.route('/create-checkout-session', methods=['POST'])
 @login_required
 def create_checkout_session():
-    YOUR_DOMAIN = "https://trygreg.com"
+    # YOUR_DOMAIN = "https://trygreg.com"
+    YOUR_DOMAIN = "https://127.0.0.1:5000"
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{
@@ -733,7 +735,7 @@ def success():
 
 @app.route('/cancel/')
 def cancel():
-    return render_template("chat.html")
+    return redirect(url_for('chat'))
 
 
 if __name__ == '__main__':

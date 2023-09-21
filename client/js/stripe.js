@@ -1,4 +1,4 @@
-var stripe = Stripe('pk_test_51NrlkKCp04lVZoC1zqYbhUYt9iTxMHZeXLgLcClwzSxxkCNs2sdVOyR9YCjxFSz4AB6WBg3QcuXQTts66sFigLf600udpsBHb0');
+var stripe = Stripe('pk_live_51NrlkKCp04lVZoC1r6qrv9pFiFUhVwVsgc6mZHw6OXgHkEa4bDJxJDQpG9V0WBqwUQWbyXfMT1sYr8ZjAkP2YSzV00V7NsD73b');
 var checkoutButton = document.getElementById('checkout-button');
 
 var checkoutButton = document.getElementById('checkout-button');
