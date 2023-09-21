@@ -53,7 +53,7 @@ fonttools==4.39.4
 frozendict==2.3.8
 frozenlist==1.3.3
 fsspec==2023.5.0
-gcloud==0.17.0
+gcloud==0.18.3
 gitdb==4.0.10
 GitPython==3.1.32
 google-api-core==1.34.0
@@ -119,7 +119,7 @@ nulltype==2.3.1
 numba==0.57.1
 numexpr==2.8.4
 numpy==1.24.3
-oauth2client==3.0.0
+oauth2client>=4.1.2
 openai==0.27.8
 openapi-schema-pydantic==1.2.4
 orjson==3.9.0
@@ -143,7 +143,7 @@ pyasn1==0.5.0
 pyasn1-modules==0.3.0
 pycodestyle==2.11.0
 pycparser==2.21
-pycryptodome==3.4.3
+pycryptodome>=3.6.4
 pycryptodomex==3.18.0
 pydantic==1.10.9
 pydeck==0.8.0
@@ -160,7 +160,6 @@ PyPasser==0.0.5
 pyperclip==1.8.2
 pyppeteer==1.0.2
 pyquery==2.0.0
-Pyrebase==3.0.27
 Pyrebase4==4.5.0
 pyrsistent==0.19.3
 pyscopg2==66.0.2
@@ -176,9 +175,9 @@ random-password-generator==2.2.0
 random-username==1.0.2
 rapidfuzz==3.2.0
 regex==2023.6.3
-requests>=2.16.0
+requests>=2.20.0
 requests-html==0.10.0
-requests-toolbelt==0.7.0
+requests-toolbelt>=0.7.1
 retrying==1.3.4
 rich==13.5.2
 rsa==4.9
