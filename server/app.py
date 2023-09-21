@@ -56,7 +56,7 @@ PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
 # Use `development` to test with live users and credentials and `production`
 # to go live
-PLAID_ENV = os.getenv('PLAID_ENV', 'sandbox')
+PLAID_ENV = os.getenv('PLAID_ENV', 'development')
 PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
 
@@ -661,7 +661,7 @@ def create_checkout_session():
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{
-            'price': 'price_1Ns2oFCp04lVZoC1gtpHUkXA', 
+            'price': 'price_1Nrly6Cp04lVZoC1v21ipUZV', 
             'quantity': 1,
         }],
         mode='subscription',

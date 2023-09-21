@@ -12,7 +12,7 @@ const spinner = box_conversations.querySelector(".spinner");
 const stop_generating = document.querySelector(`.stop-generating`);
 const send_button = document.querySelector(`#send-button`);
 const user_image = `<img src="/client/img/user.png" alt="User Avatar">`;
-const gpt_image = `<img src="/client/img/gregai.png" alt="GPT Avatar">`;
+const gpt_image = `<img src="/portfolio-chatbot/client/img/gregai.png" alt="Greg Avatar">`;
 
 let prompt_lock = false;
 
