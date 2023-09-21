@@ -55,9 +55,12 @@ def load_user(user_id):
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
 # Use `development` to test with live users and credentials and `production`
+print(f'PLAID_CLIENT_ID: {PLAID_CLIENT_ID}')
+print(f'PLAID_SECRET: {PLAID_SECRET}')
+
 # to go live
 PLAID_ENV = os.getenv('PLAID_ENV')
-PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
+PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS').split(',')
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
 
 # Configure Stripe API
@@ -70,16 +73,16 @@ def empty_to_none(field):
         return None
     return value
 
-host = plaid.Environment.Sandbox
+host = plaid.Environment.Development
 
-if PLAID_ENV == 'sandbox':
-    host = plaid.Environment.Sandbox
+# if PLAID_ENV == 'sandbox':
+#     host = plaid.Environment.Sandbox
 
-if PLAID_ENV == 'development':
-    host = plaid.Environment.Development
+# if PLAID_ENV == 'development':
+#     host = plaid.Environment.Development
 
-if PLAID_ENV == 'production':
-    host = plaid.Environment.Production
+# if PLAID_ENV == 'production':
+#     host = plaid.Environment.Production
 
 
 # Parameters used for the OAuth redirect Link flow.
@@ -92,7 +95,7 @@ if PLAID_ENV == 'production':
 PLAID_REDIRECT_URI = empty_to_none('PLAID_REDIRECT_URI')
 
 configuration = plaid.Configuration(
-    host=host,
+    host=plaid.Environment.Development,
     api_key={
         'clientId': PLAID_CLIENT_ID,
         'secret': PLAID_SECRET,
@@ -358,6 +361,7 @@ def create_link_token():
         response = client.link_token_create(request)
         return jsonify(response.to_dict())
     except plaid.ApiException as e:
+        logging.error(f"Error creating link token: {e}")
         return json.loads(e.body), 500
 
 # Route to exchange public_token for an access_token
@@ -659,7 +663,7 @@ def get_chatbot_response():
 @login_required
 def create_checkout_session():
     # YOUR_DOMAIN = "https://trygreg.com"
-    YOUR_DOMAIN = "https://127.0.0.1:5000"
+    YOUR_DOMAIN = "https://trygreg.com"
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{
