@@ -94,6 +94,8 @@ host = plaid.Environment.Development
 # at https://dashboard.plaid.com/team/api.
 PLAID_REDIRECT_URI = empty_to_none('PLAID_REDIRECT_URI')
 
+print(PLAID_CLIENT_ID)
+print(PLAID_SECRET)
 configuration = plaid.Configuration(
     host=plaid.Environment.Development,
     api_key={
