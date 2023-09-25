@@ -5,7 +5,6 @@ var checkoutButton = document.getElementById('checkout-button');
 var premiumButton = document.getElementById('premium-button');
 
 checkoutButton.addEventListener('click', (event) => {
-    console.log('Checkout button clicked');
     event.preventDefault();
     
     fetch('/create-checkout-session', {

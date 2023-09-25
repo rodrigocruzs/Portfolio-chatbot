@@ -60,7 +60,6 @@ const displayConnectedAccounts = async () => {
         const data = await response.json();
         const accounts = data.accounts;
 
-		console.log('Fetched user accounts:', accounts);
         // Clear the existing content of the account list
         account_list.innerHTML = '';
 

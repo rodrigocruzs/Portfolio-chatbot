@@ -16,6 +16,7 @@ from plaid.model.accounts_get_request import AccountsGetRequest
 from plaid.model.investments_holdings_get_request import InvestmentsHoldingsGetRequest
 from plaid.model.item_get_request import ItemGetRequest
 from plaid.model.institutions_get_by_id_request import InstitutionsGetByIdRequest
+from plaid.model.institutions_get_request import InstitutionsGetRequest
 from plaid.api import plaid_api
 import logging
 import os
@@ -26,6 +27,8 @@ import json
 import time
 import plaid
 import stripe
+from plaid.model.institutions_get_request_options import InstitutionsGetRequestOptions
+
 
 qa = stock_analysis
 logging.basicConfig(level=logging.INFO)
@@ -55,8 +58,6 @@ def load_user(user_id):
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
 # Use `development` to test with live users and credentials and `production`
-print(f'PLAID_CLIENT_ID: {PLAID_CLIENT_ID}')
-print(f'PLAID_SECRET: {PLAID_SECRET}')
 
 # to go live
 PLAID_ENV = os.getenv('PLAID_ENV')
@@ -94,10 +95,9 @@ host = plaid.Environment.Development
 # at https://dashboard.plaid.com/team/api.
 PLAID_REDIRECT_URI = empty_to_none('PLAID_REDIRECT_URI')
 
-print(PLAID_CLIENT_ID)
-print(PLAID_SECRET)
+
 configuration = plaid.Configuration(
-    host=plaid.Environment.Development,
+    host=host,
     api_key={
         'clientId': PLAID_CLIENT_ID,
         'secret': PLAID_SECRET,
@@ -125,6 +125,20 @@ payment_id = None
 transfer_id = None
 
 item_id = None
+
+
+# # Create the request
+# request = InstitutionsGetRequest(
+#     country_codes=['US'],
+#     options=InstitutionsGetRequestOptions(products=['investments'], oauth=True)
+# )
+
+# # Call the API
+# response = client.institutions_get(request)
+
+# # Print the names of the institutions
+# for institution in response.institutions:
+#     print(institution.name)
 
 
 def update_investment_view_from_holding(holding: InvestmentHolding):

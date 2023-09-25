@@ -5,7 +5,6 @@ const connectPlaid = async () => {
 		})
 		.then(response => response.json())
 		.then(data => {
-			console.log(data)
 			const linkToken = data.link_token;
 			const handler = Plaid.create({
 				token: linkToken,
