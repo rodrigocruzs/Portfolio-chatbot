@@ -16,7 +16,6 @@ from plaid.model.accounts_get_request import AccountsGetRequest
 from plaid.model.investments_holdings_get_request import InvestmentsHoldingsGetRequest
 from plaid.model.item_get_request import ItemGetRequest
 from plaid.model.institutions_get_by_id_request import InstitutionsGetByIdRequest
-from plaid.model.institutions_get_request import InstitutionsGetRequest
 from plaid.api import plaid_api
 import logging
 import os
@@ -27,7 +26,6 @@ import json
 import time
 import plaid
 import stripe
-from plaid.model.institutions_get_request_options import InstitutionsGetRequestOptions
 
 
 qa = stock_analysis

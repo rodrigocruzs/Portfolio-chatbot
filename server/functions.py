@@ -23,6 +23,7 @@ from sqlalchemy import create_engine, text, MetaData, Table
 from datetime import date, datetime, timedelta
 import holidays
 from db import save_user_question
+from serpapi import GoogleSearch
 
 
 load_dotenv(find_dotenv())
@@ -33,6 +34,7 @@ dbname = os.environ.get("DB_NAME")
 user = os.environ.get("DB_USER_LANGCHAIN")
 password = os.environ.get("DB_PASSWORD_LANGCHAIN")
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+serpapi_key = os.environ["SERPAPI_API_KEY"]
 
 # Build the connection string
 connection_string = f"postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}"
@@ -209,11 +211,6 @@ def get_stock_price_on_date(ticker, date):
         return {"error": "Data not available for the specified date"}
     
     return {"price": history.iloc[0]["Close"], "currency": ticker_data.info["currency"]}
-
-# ticker = "NHX105509"
-# date = "2021-01-01"
-# example = get_stock_price_on_date(ticker, date)
-# print(example)
 
 class StockPriceOnDateInput(BaseModel):
     """Inputs for get_stock_price_on_date"""
@@ -1220,6 +1217,48 @@ class CalculatePortfolioReturnsTool(BaseTool):
 
 
 
+def search_google(query):
+    """Method to search Google using SerpApi."""
+    if not query:
+        return {"error": "Query is not defined"}
+
+    params = {
+      "engine": "google",
+      "q": query,
+      "api_key": serpapi_key
+    }
+
+    search = GoogleSearch(params)
+    results = search.get_dict()
+    organic_results = results["organic_results"]
+    
+    if not organic_results:
+        return {"error": "No results found for the query"}
+
+    return {"results": organic_results}
+
+class GoogleSearchInput(BaseModel):
+    """Inputs for search_google."""
+
+    query: str = Field(description="The search query")
+
+class GoogleSearchTool(BaseTool):
+    name = "search_google"
+    description = """
+        Allows agents to search Google using a specific query.
+        Simply enter the query and receive the organic search results.
+        """
+    
+    args_schema: Type[BaseModel] = GoogleSearchInput
+    
+    def _run(self, query: str):
+        search_response = search_google(query)
+        return search_response
+    
+    def _arun(self, query: str):
+        raise NotImplementedError("search_google does not support async")
+
+
 
 # AI agent analyst
 
@@ -1243,7 +1282,8 @@ def stock_analysis(user_input: str, chathistory: List[dict], user_id_param: int)
              GetCashPositionTool(),
              LatestStockNewsTool(),
              GetTransactionSummaryTool(),
-             GetTopStocksByDividendYieldTool(),
+             GetTopStocksByDividendYieldTool()
+            #  GoogleSearchTool()
             ]
 
     system_message = SystemMessage(content="""
@@ -1275,6 +1315,7 @@ In the 'calculate_portfolio_returns' function, set the 'end_date' parameter to t
 - Treat "stocks" synonymously with "equity" and "market" as equivalent to "S&P 500" when querying the database.
 - Present all numerical values with two decimal points and appropriate punctuation to ensure clarity and professionalism.
 - Prioritize double-checking your final response to maintain accuracy and reliability in assisting the user.
+- If the user asks "which bank gives best APY?" or something similar, you should use GoogleSearchTool to search Google for the best APY.
 By steadfastly following these instructions, provide the user with proficient assistance in understanding and managing their investment portfolio.
                             """)
 
