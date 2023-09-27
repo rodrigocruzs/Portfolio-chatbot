@@ -23,7 +23,7 @@ from sqlalchemy import create_engine, text, MetaData, Table
 from datetime import date, datetime, timedelta
 import holidays
 from db import save_user_question
-from serpapi import GoogleSearch
+# from serpapi import GoogleSearch
 
 
 load_dotenv(find_dotenv())
@@ -34,7 +34,6 @@ dbname = os.environ.get("DB_NAME")
 user = os.environ.get("DB_USER_LANGCHAIN")
 password = os.environ.get("DB_PASSWORD_LANGCHAIN")
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
-serpapi_key = os.environ["SERPAPI_API_KEY"]
 
 # Build the connection string
 connection_string = f"postgresql+psycopg2://{user}:{password}@{host}:5432/{dbname}"
@@ -1215,48 +1214,46 @@ class CalculatePortfolioReturnsTool(BaseTool):
         raise NotImplementedError("calculate_portfolio_returns does not support async")
 
 
+# def search_google(query):
+#     """Method to search Google using SerpApi."""
+#     if not query:
+#         return {"error": "Query is not defined"}
 
+#     params = {
+#       "engine": "google",
+#       "q": query,
+#       "api_key": serpapi_key
+#     }
 
-def search_google(query):
-    """Method to search Google using SerpApi."""
-    if not query:
-        return {"error": "Query is not defined"}
-
-    params = {
-      "engine": "google",
-      "q": query,
-      "api_key": serpapi_key
-    }
-
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    organic_results = results["organic_results"]
+#     search = GoogleSearch(params)
+#     results = search.get_dict()
+#     organic_results = results["organic_results"]
     
-    if not organic_results:
-        return {"error": "No results found for the query"}
+#     if not organic_results:
+#         return {"error": "No results found for the query"}
 
-    return {"results": organic_results}
+#     return {"results": organic_results}
 
-class GoogleSearchInput(BaseModel):
-    """Inputs for search_google."""
+# class GoogleSearchInput(BaseModel):
+#     """Inputs for search_google."""
 
-    query: str = Field(description="The search query")
+#     query: str = Field(description="The search query")
 
-class GoogleSearchTool(BaseTool):
-    name = "search_google"
-    description = """
-        Allows agents to search Google using a specific query.
-        Simply enter the query and receive the organic search results.
-        """
+# class GoogleSearchTool(BaseTool):
+#     name = "search_google"
+#     description = """
+#         Allows agents to search Google using a specific query.
+#         Simply enter the query and receive the organic search results.
+#         """
     
-    args_schema: Type[BaseModel] = GoogleSearchInput
+#     args_schema: Type[BaseModel] = GoogleSearchInput
     
-    def _run(self, query: str):
-        search_response = search_google(query)
-        return search_response
+#     def _run(self, query: str):
+#         search_response = search_google(query)
+#         return search_response
     
-    def _arun(self, query: str):
-        raise NotImplementedError("search_google does not support async")
+#     def _arun(self, query: str):
+#         raise NotImplementedError("search_google does not support async")
 
 
 
