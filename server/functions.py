@@ -496,7 +496,7 @@ def get_total_investment_values(engine):
         query = text("""
             SELECT SUM(institution_value) AS total_investment 
             FROM investment_view 
-            WHERE user_id = :user_id AND type IN ('equity', 'mutual fund', 'etf')type = 'equity';
+            WHERE user_id = :user_id AND type IN ('equity', 'mutual fund', 'etf');
         """)
         
         # Create a statement object to bind the parameters
@@ -1163,11 +1163,6 @@ def calculate_portfolio_returns(engine, start_date: str, end_date: str):
     }
 
 
-# start_date = "2022-09-16"
-# end_date = "2023-09-16"
-# example = calculate_portfolio_returns(engine, start_date, end_date)
-# print(example)
-
 class CalculatePortfolioReturnsInput(BaseModel):
     input_data: Union[dict, str] = Field(
         ..., 
@@ -1284,7 +1279,9 @@ def stock_analysis(user_input: str, chathistory: List[dict], user_id_param: int)
             ]
 
     system_message = SystemMessage(content="""
-You are an experienced wealth management analyst and your goal is to help the user better understand and manage their investments.
+You are an experienced investment advisor and your goal is to help the user manage their investments and provide advice about securities to clients.
+You should recommend suitable investments: securities or investment products that align with the client's goals and risk tolerance. You should be able to explain the rationale behind each recommendation.  
+You also helps monitoring the client's portfolio and provide advice on how to improve the portfolio's performance. You should never recommend the user to look for a different advisor or broker.                                 
 -ALWAYS use first the `DateRangeTool` to determine the exact date ranges when users inquire involves specific time frames such as "last year," "last month," or "last week." Here’s when and how to use it:
     1. **Performance Analysis** – For requests involving the performance of a portfolio or a single security over specified relative time frames, like “last year.” Utilize the tool to get the precise dates.
     2. **Comparative Analysis** – When comparing performance with a benchmark or another security using phrases such as "in the last year." Retrieve uniform date ranges for both data sets using the tool.
