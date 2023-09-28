@@ -72,7 +72,7 @@ def empty_to_none(field):
         return None
     return value
 
-host = plaid.Environment.Sandbox
+host = plaid.Environment.Development
 
 # if PLAID_ENV == 'sandbox':
 #     host = plaid.Environment.Sandbox
