@@ -3,6 +3,8 @@ Portfolio-chatbot/__pycache__/
 Portfolio-chatbot/migrations/
 Portfolio-chatbot/.env
 Portfolio-chatbot/client/node_modules
+__pycache__/
+*.pyc
 
 # Logs
 .port
