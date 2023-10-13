@@ -32,6 +32,8 @@
     href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/styles/base16/dracula.min.css" />
   <title>GregAI - Chat with your investments</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body id="landing-page">
   <header>
@@ -41,34 +43,27 @@
     </nav>
   </header>
 
-  <main>
-    <div class="home-container">
-      <div class="center-rectangle">
-        <h1>Meet Greg: Your Personal AI Investment Assistant</h1>
-          <div>
-            <p>Greg is a chatbot that helps you manage your investments and answer questions about your portfolio and the stock market.</p>
-          </div>
-        <h3>Stay on top of your portfolio</h2>
-        <div class="question-box">
-          "How has my portfolio performed versus the S&P in the last month?"
-        </div>
-        <h3>Know the winners and losers</h2>
-          <div class="question-box">
-            "What is the best performing stock in my portfolio this week?"
-          </div>
-          <h3>Ask questions about the stock market</h2>
-            <div class="question-box">
-              "What are the 10 stocks in the S&P with the highest dividend yield?"
-            </div>
-            <div class="warning">
-              <strong>Important: </strong>to empower Greg to analyze your portfolio effectively, we'll request you to 
-              link your brokerage accounts. This is facilitated through Plaid, ensuring we have read-only access to your data. 
-              We cannot execute orders on your behalf. 
-            </div>
-        </div>
-      </div>
-    </div>
-  </main>
+  <div class="lp-container">
+    <!-- Right Section -->
+    <div class="right-section">
+      <img src="/client/img/hero-image.png" alt="Hero Image">
+  </div>
+
+
+      <!-- Left Section -->
+    <div class="left-section">
+      <h1>THE HELP YOU ALWAYS WANTED WITH YOUR INVESTMENTS.</h1><br>
+      <p>If you need help building a portfolio or managing it, Greg can help you.
+        Don't need to transfer funds, just connect your accounts to Greg and it will
+        help deciding where to best allocate, withdraw and how to best balance
+        your portfolio to achieve your goals.</p><br><br>
+        <a href="{{ url_for('signup') }}">
+          <button class="get-started-btn">
+              GET STARTED <i class="fas fa-arrow-up"></i>
+          </button>
+      </a>
+  </div>
+</div>
 </body>
 </html>
 

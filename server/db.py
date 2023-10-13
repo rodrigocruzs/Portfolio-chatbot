@@ -34,6 +34,26 @@ class Customer(UserMixin, db.Model):
     investment_holdings = db.relationship('InvestmentHolding', backref='customer', lazy=True)
     investment_transactions = db.relationship('InvestmentTransaction', backref='customer', lazy=True)
 
+    # Fields from the onboarding session
+    age = db.Column(db.Integer, nullable=True)
+    marital_status = db.Column(db.String(50), nullable=True)
+    dependents = db.Column(db.Integer, nullable=True)
+    employment_status = db.Column(db.String(50), nullable=True)
+    annual_income = db.Column(db.Float, nullable=True)
+    income_source = db.Column(db.String(255), nullable=True)
+    major_expenses_next_5_years = db.Column(db.String(255), nullable=True)
+    financial_commitments = db.Column(db.Text, nullable=True)
+    investment_duration = db.Column(db.Integer, nullable=True)
+    financial_goals = db.Column(db.String(255), nullable=True)
+    investment_style = db.Column(db.String(50), nullable=True)
+    investment_knowledge_rating = db.Column(db.Integer, nullable=True)
+    investment_reaction = db.Column(db.String(50), nullable=True)
+    capital_preference = db.Column(db.String(50), nullable=True)
+    debt_feeling = db.Column(db.String(50), nullable=True)
+    anticipated_changes_next_3_5_years = db.Column(db.Boolean, nullable=True)
+    review_frequency = db.Column(db.String(50), nullable=True)
+    onboarding_complete = db.Column(db.Boolean, default=False)
+
     def set_password(self, password):
         self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
@@ -61,6 +81,13 @@ class Customer(UserMixin, db.Model):
         trial_end_date = self.subscription_start_date + timedelta(days=trial_period_days)
         return datetime.utcnow() < trial_end_date
     
+class InvestmentProfile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
+    profile = db.Column(db.String(50), nullable=True)
+    customer = db.relationship('Customer', backref=db.backref('investment_profile', uselist=False))
+
+
 class UserQuestion(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
     user_id = db.Column(db.Integer, ForeignKey('customer.id'), nullable=False, index=True)  # Foreign Key to refer to the customer table

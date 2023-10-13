@@ -1209,48 +1209,211 @@ class CalculatePortfolioReturnsTool(BaseTool):
         raise NotImplementedError("calculate_portfolio_returns does not support async")
 
 
-# def search_google(query):
-#     """Method to search Google using SerpApi."""
-#     if not query:
-#         return {"error": "Query is not defined"}
 
-#     params = {
-#       "engine": "google",
-#       "q": query,
-#       "api_key": serpapi_key
-#     }
 
-#     search = GoogleSearch(params)
-#     results = search.get_dict()
-#     organic_results = results["organic_results"]
+def determine_investment_profile(data):
+    score = 0
     
-#     if not organic_results:
-#         return {"error": "No results found for the query"}
+    # Age scoring
+    if 18 <= data['age'] <= 30:
+        score += 5
+    elif 31 <= data['age'] <= 45:
+        score += 4
+    elif 46 <= data['age'] <= 60:
+        score += 3
+    else:
+        score += 2
 
-#     return {"results": organic_results}
+    # Marital status scoring
+    marital_status_scores = {
+        'Single': 5,
+        'Married': 4,
+        'Divorced': 3,
+        'Widowed': 2
+    }
+    score += marital_status_scores.get(data['maritalStatus'], 0)
 
-# class GoogleSearchInput(BaseModel):
-#     """Inputs for search_google."""
+    # Number of Dependents scoring
+    if data['dependents'] == 0:
+        score += 5
+    elif 1 <= data['dependents'] <= 2:
+        score += 4
+    elif 3 <= data['dependents'] <= 4:
+        score += 3
+    else:
+        score += 2
 
-#     query: str = Field(description="The search query")
+    # Employment Status scoring
+    employment_status_scores = {
+        'Full-time': 5,
+        'Part-time': 4,
+        'Self-employed': 5,
+        'Unemployed': 2,
+        'Retired': 3
+    }
+    score += employment_status_scores.get(data['employmentStatus'], 0)
 
-# class GoogleSearchTool(BaseTool):
-#     name = "search_google"
-#     description = """
-#         Allows agents to search Google using a specific query.
-#         Simply enter the query and receive the organic search results.
-#         """
-    
-#     args_schema: Type[BaseModel] = GoogleSearchInput
-    
-#     def _run(self, query: str):
-#         search_response = search_google(query)
-#         return search_response
-    
-#     def _arun(self, query: str):
-#         raise NotImplementedError("search_google does not support async")
+    # Annual Income scoring (assuming income is in thousands for simplicity)
+    if 0 <= data['annualIncome'] <= 30:
+        score += 2
+    elif 30 < data['annualIncome'] <= 60:
+        score += 3
+    elif 60 < data['annualIncome'] <= 100:
+        score += 4
+    else:
+        score += 5
+
+    # Financial Goals scoring
+    goal_scores = {
+        'Buying a home': 4,
+        'Retirement': 3,
+        'Children\'s education': 3,
+        'Travel': 5,
+        'Starting a business': 5
+    }
+    for goal in data['goals']:
+        score += goal_scores.get(goal, 0)
+
+    # Major Expenses in Next 5 Years scoring
+    major_expenses_scores = {
+        'Wedding': 3,
+        'Home purchase': 3,
+        'World tour': 4
+    }
+    for expense in data['majorExpensesNext5Years']:
+        score += major_expenses_scores.get(expense, 0)
+
+    # Ongoing Financial Commitments scoring
+    if data['financialCommitments']:
+        score += 3
+    else:
+        score += 5
 
 
+    # Investment Duration scoring
+    if 0 <= data['investmentDuration'] <= 2:
+        score += 2
+    elif 3 <= data['investmentDuration'] <= 5:
+        score += 3
+    elif 6 <= data['investmentDuration'] <= 10:
+        score += 4
+    else:
+        score += 5
+
+    # Investment Knowledge scoring
+    score += data['investmentKnowledgeRating']
+
+    # Investment Style scoring
+    investment_style_scores = {
+        'Very Conservative': 1,
+        'Conservative': 2,
+        'Moderate': 3,
+        'Aggressive': 4,
+        'Very Aggressive': 5
+    }
+    score += investment_style_scores.get(data['riskTolerance'], 0)
+
+    # Reaction to Investment Drop scoring
+    investment_reaction_scores = {
+        'Sell all': 1,
+        'Sell some': 2,
+        'Do nothing': 3,
+        'Buy more': 5
+    }
+    score += investment_reaction_scores.get(data['investmentReaction'], 0)
+
+    # Capital Preference scoring
+    capital_preference_scores = {
+        'Preserving capital': 2,
+        'Growing capital': 5
+    }
+    score += capital_preference_scores.get(data['capitalPreference'], 0)
+
+    # Feelings About Debt scoring
+    debt_feeling_scores = {
+        'Avoid at all costs': 2,
+        'Necessary evil': 3,
+        'Useful tool for growth': 5
+    }
+    score += debt_feeling_scores.get(data['debtFeeling'], 0)
+
+    # Anticipated Changes in Income or Expenses in Next 3-5 Years scoring
+    if data['anticipatedChangesNext3_5Years']:
+        score += 3
+    else:
+        score += 5
+
+    # Review and Adjust Investments Frequency scoring
+    review_frequency_scores = {
+        'Monthly': 5,
+        'Quarterly': 4,
+        'Bi-annually': 3,
+        'Annually': 2,
+        'Only when contacted': 1
+    }
+    score += review_frequency_scores.get(data['reviewFrequency'], 0)
+
+    # Determine profile based on total score
+    if score <= 50:
+        return "Conservative"
+    elif 50 < score <= 75:
+        return "Moderate"
+    else:
+        return "Aggressive"
+
+
+def recommend_portfolio(engine):
+    global user_id
+    # Basic Allocation Profiles
+    portfolios = {
+        "Conservative": {"Stocks": 15, "Bonds": 80, "Cash": 5},
+        "Moderate": {"Stocks": 35, "Bonds": 60, "Cash": 5},
+        "Aggressive": {"Stocks": 50, "Bonds": 45, "Cash": 5}
+    }
+
+    # Query the database to fetch the user's investment profile
+    query = text("""
+        SELECT profile 
+        FROM investment_profile
+        WHERE user_id = :user_id
+    """)
+    try:
+        # Create a statement object to bind the parameters
+        stmt = query.bindparams(user_id=user_id)
+        
+        # Execute the SQL query and fetch the result
+        with engine.connect() as conn:
+            result = conn.execute(stmt).fetchone()
+
+        # If no result found, return an error or default portfolio
+        if not result:
+            return {"error": "User's investment profile not found"}
+
+        # Return the recommended portfolio based on the fetched investment profile
+        return portfolios.get(result[0], {"error": "Invalid investment profile"})
+
+    except Exception as e:
+        print(f"Error fetching investment profile: {e}")
+        return {"error": "An error occurred while fetching the investment profile"}
+
+class RecommendPortfolioInput(BaseModel):
+    """Inputs for recommend_portfolio"""
+
+class RecommendPortfolioTool(BaseTool):
+    name = "recommend_portfolio"
+    description = """
+        This tool recommends an investment portfolio based on the user's profile. 
+        The output will be a portfolio allocation recommendation in terms of percentages for Stocks, Bonds, and Cash.
+        """
+    args_schema: Type[BaseModel] = RecommendPortfolioInput
+
+    def _run(self) -> Dict[str, int]:
+        global user_id
+        recommended_portfolio = recommend_portfolio(engine)
+        return recommended_portfolio
+
+    def _arun(self):
+        raise NotImplementedError("recommend_portfolio does not support async")
 
 # AI agent analyst
 
@@ -1274,14 +1437,15 @@ def stock_analysis(user_input: str, chathistory: List[dict], user_id_param: int)
              GetCashPositionTool(),
              LatestStockNewsTool(),
              GetTransactionSummaryTool(),
-             GetTopStocksByDividendYieldTool()
-            #  GoogleSearchTool()
+             GetTopStocksByDividendYieldTool(),
+             RecommendPortfolioTool()
             ]
 
     system_message = SystemMessage(content="""
 You are an experienced investment advisor and your goal is to help the user manage their investments and provide advice about securities to clients.
 You should recommend suitable investments: securities or investment products that align with the client's goals and risk tolerance. You should be able to explain the rationale behind each recommendation.  
-You also helps monitoring the client's portfolio and provide advice on how to improve the portfolio's performance. You should never recommend the user to look for a different advisor or broker.                                 
+You also helps monitoring the client's portfolio and provide advice on how to improve the portfolio's performance. You should never recommend the user to look for a different advisor or broker.
+If the user asks for a portfolio recommendation, you should first use RecommendPortfolioTool first to know the user's risk tolerance and then recommend a portfolio allocation based on the user's risk tolerance.
 -ALWAYS use first the `DateRangeTool` to determine the exact date ranges when users inquire involves specific time frames such as "last year," "last month," or "last week." Here’s when and how to use it:
     1. **Performance Analysis** – For requests involving the performance of a portfolio or a single security over specified relative time frames, like “last year.” Utilize the tool to get the precise dates.
     2. **Comparative Analysis** – When comparing performance with a benchmark or another security using phrases such as "in the last year." Retrieve uniform date ranges for both data sets using the tool.

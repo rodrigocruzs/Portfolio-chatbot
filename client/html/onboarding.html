@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Onboarding - GregAI</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='img/site.webmanifest') }}" />
+</head>
+<body id="landing-page">
+
+    <header>
+        <nav>
+        </nav>
+    </header>
+
+    <main>
+        <div class="center-rectangle">
+        <div class="login-container">
+        <!-- Onboarding Screen 0 -->
+            <div class="onboarding-screen flex-display" id="welcome-screen">
+                <h1>Hello there! Let's embark on your financial journey with Greg 🚀</h1>
+                <p>I'll ask some questions to better understand about you, your current financial situation and where do you want to get</p><br>
+
+                <!-- Button to navigate to the next screen -->
+                <button type="button" class="next-button" onclick="showScreen('first-screen')">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <!-- Onboarding Screen 1 -->
+            <div class="onboarding-screen hidden" id="first-screen">
+                <h1>Tell me more about you.</h1>
+                                    <!-- Age Input -->
+                <form id="personal-info-form" class="onboarding-form">
+                        <div class="input-option">
+                            <label for="age">Age:</label>
+                            <input type="number" id="age" name="age" min="0" required>
+                        </div>
+                        <!-- Marital Status Selection -->
+                    <div class="dropdown-option">
+                        <label for="marital-status">Marital Status:</label>
+                        <select id="marital-status" name="marital-status" required>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                            <option value="Widowed">Widowed</option>
+                        </select>
+                    </div>
+
+                    <div class="input-option">
+                        <label for="dependents">Number of Dependents:</label>
+                        <input type="number" id="dependents" name="dependents" min="0" required>
+                    </div>
+                    <button type="button" class="next-button" onclick="capturePersonalInfo()">Next<i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+
+            <!-- Onboarding Screen 2 --><!-- Employment Status Selection -->
+            <div class="onboarding-screen hidden" id="second-screen">
+                <h1>Now tell me about your inflows of cash</h1>
+                <form id="employment-income-form" class="onboarding-form">
+
+                    <div class="dropdown-option">
+                        <label for="employment-status">Employment Status:</label>
+                        <select id="employment-status" name="employment-status" required>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Self-employed">Self-employed</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Retired">Retired</option>
+                        </select>
+                    </div>
+                
+                    <!-- Annual Income Input -->
+                    <div class="input-option">
+                        <label for="annual-income">Annual Income ($):</label>
+                        <input type="number" id="annual-income" name="annual-income" min="0" required>
+                    </div>
+                
+                    <!-- Source(s) of Income Input -->
+                    <div class="input-option">
+                        <label for="income-source">Source(s) of Income:</label>
+                        <input type="text" id="income-source" name="income-source" placeholder="e.g., Salary, Rental, Business" required>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="submit-button">
+                        <button type="button" class="next-button" onclick="captureEmploymentIncome('third-screen')">Next<i class="fas fa-arrow-right"></i></button>
+                    </div>
+                
+                </form>
+            </div>
+
+            <!-- Onboarding Screen 3 (Financial Goals) -->
+            <div class="onboarding-screen hidden" id="third-screen">
+    
+                <form id="life-goals-form" class="onboarding-form">
+
+                <!-- Primary Financial Goals Selection -->
+                <div class="goals-selection">
+                    <h1>What are your primary financial goals?</h1><br>
+                    
+                    <button type="button" class="select-button" data-goal="Buying a home" onclick="toggleSelection(this)">Buying a home</button><br>
+                    
+                    <button type="button" class="select-button" data-goal="Retirement" onclick="toggleSelection(this)">Retirement</button><br>
+                    
+                    <button type="button" class="select-button" data-goal="Children's education" onclick="toggleSelection(this)">Children's education</button><br>
+                    
+                    <button type="button" class="select-button" data-goal="Travel" onclick="toggleSelection(this)">Travel</button><br>
+                    
+                    <button type="button" class="select-button" data-goal="Starting a business" onclick="toggleSelection(this)">Starting a business</button>
+                </div>
+                    <!-- Submit Button -->
+                    <button type="button" class="next-button" onclick="captureMajorExpenses()">Next<i class="fas fa-arrow-right"></i></button>
+
+                    </form>
+            </div>
+
+            <!-- Onboarding Screen 4 (Future expenses) -->
+            <div class="onboarding-screen hidden" id="fourth-screen">
+                
+                <form id="next-years-form" class="onboarding-form">
+                
+                    <!-- Major Expenses in Next 5 Years -->
+                    <div class="goals-selection">
+                        <h1>Are you planning any major expenses in the next 5 years?</h1><br>
+                        
+                        <button type="button" id="wedding" class="select-button" data-selected="false">Wedding</button><br>
+                        <button type="button" id="home-purchase" class="select-button" data-selected="false">Home purchase</button><br>
+                        <button type="button" id="world-tour" class="select-button" data-selected="false">World tour</button><br>
+                    </div>
+                    
+                    <script>
+                        const buttons = document.querySelectorAll('.select-button');
+                    
+                        buttons.forEach(button => {
+                            button.addEventListener('click', function() {
+                                const isSelected = this.getAttribute('data-selected') === 'true';
+                                this.setAttribute('data-selected', !isSelected);
+                                this.classList.toggle('selected', !isSelected);
+                            });
+                        });
+                    </script>
+                    
+                    <style>
+                        .select-button.selected {
+                            background-color: #3D422E;
+                            color: white;
+                        }
+                    </style>
+                
+                    <!-- Submit Button -->
+                    <div class="submit-button">
+                        <button type="button" class="next-button" onclick="captureMajorExpenses('fifth-screen')">Next<i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    </form>
+            </div>
+
+            <!-- Onboarding Screen 5 (Financial commitments) -->
+            <div class="onboarding-screen hidden" id="fifth-screen">
+                
+                <form id="additional-fin-questions-form" class="onboarding-form">
+                    <!-- Additional Questions -->
+                    <div class="input-option">
+                        <label for="financial-commitments"><h3>Do you have any ongoing financial commitments? (e.g., Loans, Mortgages)</h3></label><br>
+                        <button type="button" id="yes-commitments" class="select-button" data-selected="false" onclick="handleFinancialCommitmentsSelection('yes-commitments')">Yes</button><br>
+                        <button type="button" id="no-commitments" class="select-button" data-selected="false" onclick="handleFinancialCommitmentsSelection('no-commitments')">No</button><br>                        
+                    </div>
+                
+                    <div class="input-option">
+                        <label for="investment-duration"><h3>For how many years do you plan to keep your investments untouched?</h3></label><br>
+                        <input type="number" id="investment-duration" name="investment-duration" min="0" placeholder="Number of years" required>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="submit-button">
+                        <button type="button" class="next-button" onclick="captureFinancialCommitments('sixth-screen')">Next<i class="fas fa-arrow-right"></i></button>
+                    </div>
+                
+                </form>
+            </div>
+
+            <!-- Onboarding Screen 6 (Risk Tolerance) -->
+            <div class="onboarding-screen hidden" id="sixth-screen">
+                
+                <form id="risk-form" class="onboarding-form">
+                    <div class="input-option">
+                        <label for="knowledge-rating"><h3>On a scale of 1-10, how would you rate your investment knowledge?</h3></label>
+                        <input type="number" id="knowledge-rating" name="knowledge-rating" min="1" max="10" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="submit-button">
+                        <button type="button" class="next-button" onclick="captureInvestmentKnowledge('seventh-screen')">Next<i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Onboarding Screen 7 (Investment Style) -->
+            <div class="onboarding-screen hidden" id="seventh-screen">
+                
+                <form id="investment-style-form" class="onboarding-form">
+                    <div class="goals-selection">
+                        <h3>How would you describe your investment style?</h3><br>
+                        <button type="button" class="select-button" data-selected="false" onclick="handleRiskTolerance('very-conservative')">Very Conservative</button><br>
+                        <button type="button" class="select-button" data-selected="false" onclick="handleRiskTolerance('conservative')">Conservative</button><br>
+                        <button type="button" class="select-button" data-selected="false" onclick="handleRiskTolerance('moderate')">Moderate</button><br>
+                        <button type="button" class="select-button" data-selected="false" onclick="handleRiskTolerance('aggressive')">Aggressive</button><br>
+                        <button type="button" class="select-button" data-selected="false" onclick="handleRiskTolerance('very-aggressive')">Very Aggressive</button><br>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="submit-button">
+                        <button type="button" class="next-button" onclick="showScreen('eight-screen')">Next<i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Onboarding Screen 8 (reaction to investment drop) -->           
+            <div class="onboarding-screen hidden" id="eight-screen">
+
+                <form id="risk-fears-form" class="onboarding-form">
+
+                    <div class="goals-selection">
+                        <h3>Imagine your investment dropped 10% in a month. What would you do?</h3><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleInvestmentReaction('sell-all')">Sell all</button><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleInvestmentReaction('sell-some')">Sell some</button><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleInvestmentReaction('do-nothing')">Do nothing</button><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleInvestmentReaction('buy-more')">Buy more</button>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="submit-button">
+                        <button type="button" class="next-button" onclick="showScreen('nineth-screen')">Next<i class="fas fa-arrow-right"></i></button>
+                    </div>
+                
+                </form>
+
+            </div>
+
+
+                        <!-- Onboarding Screen 9 (Life Stage) -->           
+            <div class="onboarding-screen hidden" id="nineth-screen">            
+
+                <form id="capital-debt-form" class="onboarding-form">
+
+                    <!-- Capital Preference -->
+                    <div class="goals-selection" capital-preference>
+                        <h3>What's more important to you?</h3><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleCapitalPreference('preserving-capital')">Preserving capital</button><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleCapitalPreference('growing-capital')">Growing capital</button>
+                    </div>
+                
+                    <!-- Feelings About Debt -->
+                    <div class="goals-selection" debt-feeling>
+                        <h3>How do you feel about debt?</h3><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleDebtFeeling('avoid-debt')">Avoid at all costs</button><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleDebtFeeling('necessary-evil')">Necessary evil</button><br>
+                        
+                        <button type="button" class="select-button" data-selected="false" onclick="handleDebtFeeling('useful-tool')">Useful tool for growth</button>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="submit-button">
+                        <button type="button" class="next-button" onclick="showScreen('tenth-screen')">Next<i class="fas fa-arrow-right"></i></button>
+                    </div>
+                
+                </form>
+
+            </div>
+
+
+            <!-- Onboarding Screen 10 (anticipated income or expenses) -->           
+            <div class="onboarding-screen hidden" id="tenth-screen">
+                <form id="future-preferences-form" class="onboarding-form">
+
+                    <!-- Anticipated Changes in Income or Expenses -->
+                    <div class="radio-option">
+                        <h3>Do you anticipate any significant changes to your income or expenses in the next 3-5 years?</h3><br>
+                        <button type="button" id="yes-college" class="select-button" data-selected="false" onclick="handleAnticipatedChange('yes-college')">Yes</button><br>
+                        <button type="button" id="no-college" class="select-button" data-selected="false" onclick="handleAnticipatedChange('no-college')">No</button><br>
+                    </div>
+                
+                    <!-- Review and Adjust Investments Frequency -->
+                    <div class="dropdown-option">
+                        <label for="review-frequency"><h3>How frequently would you like to review and adjust your investments?</h3></label>
+                        <select id="review-frequency" name="review-frequency" required>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="Bi-annually">Bi-annually</option>
+                            <option value="Annually">Annually</option>
+                            <option value="Only when contacted">Only when contacted</option>
+                        </select>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="submit-button">
+                        <button type="button" class="next-button" onclick="captureAnticipatedChanges('eleventh-screen')">Next<i class="fas fa-arrow-right"></i></button>
+                    </div>
+                
+                </form>
+
+            </div>
+
+            <!-- Onboarding Screen 11: Connect Bank Account -->
+            <div class="onboarding-screen hidden" id="eleventh-screen">
+                <h3>You're all set!</h3>
+                <p>So we can do a more comprehensive view of your financial situation, we need to connect to your accounts. We'll only use it so Greg can craft better answers to you</p>
+                <!-- Bank connection option -->
+                <button class="connect-button" onclick="connectPlaid()">
+                    <i class="fa-regular fa-link"></i>
+                    <span>{{('Connect Account')}}</span>
+                </button>
+                <br><p>Or you can skip this part and start chatting with Greg, but this will limit his ability as a financial advisor</p>
+                <!-- Skip and explore option -->
+                <button type="button" class="connect-button" onclick="startExploring()">Chat with Greg</button>
+            </div>
+
+        </div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/plaid-link.js') }}"></script>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script src="{{ url_for('static', filename='js/onboarding.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/icons.js') }}"></script>
+</body>
+</html>
+

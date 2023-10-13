@@ -1,8 +1,8 @@
 import logging
-from db import db, init_app, Customer, InvestmentSecurity, InvestmentHolding, InvestmentTransaction, InvestmentView, BankAccount, PlaidItem
-from flask import Flask, request, redirect, url_for, render_template, flash, request, jsonify, abort, current_app
+from db import db, init_app, Customer, InvestmentSecurity, InvestmentHolding, InvestmentTransaction, InvestmentView, BankAccount, PlaidItem, InvestmentProfile
+from flask import Flask, request, redirect, url_for, render_template, flash, request, jsonify, abort, current_app, session
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from functions import stock_analysis
+from functions import stock_analysis, determine_investment_profile
 from twilio_api import send_message
 from threading import Thread
 from plaid.model.products import Products
@@ -72,7 +72,7 @@ def empty_to_none(field):
         return None
     return value
 
-host = plaid.Environment.Development
+host = plaid.Environment.Sandbox
 
 # if PLAID_ENV == 'sandbox':
 #     host = plaid.Environment.Sandbox
@@ -231,6 +231,8 @@ def update_investment_view_from_bank_account(bank_account: BankAccount):
         db.session.commit()
 
 
+
+
 def update_account_info(user_id):
     with current_app.test_request_context():
         # Mock current_user to be the user defined by user_id
@@ -292,7 +294,10 @@ def login():
                     # Fetch the latest data from Plaid for the user
                     update_account_info(user.id)
 
-                    return redirect(url_for('chat'))  # Redirect to chat page
+                    if not user.onboarding_complete:
+                        return redirect(url_for('onboarding'))
+                    else:
+                        return redirect(url_for('chat'))  # Redirect to chat pag
                 else:
                     return redirect(url_for('subscribe_page'))  # Redirect to subscription page
             else:
@@ -301,6 +306,72 @@ def login():
             flash('Invalid email or password')
     
     return render_template('login.html')
+
+
+@app.route('/welcome/')
+@login_required
+def onboarding():
+   return render_template('onboarding.html')
+
+@app.route('/onboarding-endpoint', methods=['POST'])
+def onboarding_endpoint():
+    try:
+        # Ensure user is logged in
+        if not current_user:
+            return jsonify({"message": "User not logged in or session expired", "success": False}), 401
+        
+        # Get the data from the request's JSON
+        data = request.json
+        # Expire and refresh the session for the current user
+        db.session.expire(current_user)
+        db.session.refresh(current_user)
+
+        # Mapping the data keys to database fields
+        data_mapping = {
+            'experienceLevel': 'experience_level',
+            'investments': 'current_investments',
+            'goals': 'financial_goals',
+            'investmentStyle': 'investment_style',
+            'lifeStage': 'life_stage',
+            'age': 'age',
+            'maritalStatus': 'marital_status',
+            'dependents': 'dependents',
+            'employmentStatus': 'employment_status',
+            'annualIncome': 'annual_income',
+            'incomeSource': 'income_source',
+            'majorExpensesNext5Years': 'major_expenses_next_5_years',
+            'financialCommitments': 'financial_commitments',
+            'investmentDuration': 'investment_duration',
+            'investmentKnowledgeRating': 'investment_knowledge_rating',
+            'investmentReaction': 'investment_reaction',
+            'capitalPreference': 'capital_preference',
+            'debtFeeling': 'debt_feeling',
+            'anticipatedChangesNext3_5Years': 'anticipated_changes_next_3_5_years',
+            'reviewFrequency': 'review_frequency'
+        }
+
+        for key, value in data.items():
+            db_field = data_mapping.get(key)
+            if db_field:
+                setattr(current_user, db_field, value)
+
+
+        profile_value = determine_investment_profile(data)
+        new_profile = InvestmentProfile(profile=profile_value, customer=current_user)
+        db.session.add(new_profile)
+
+        current_user.onboarding_complete = True
+        # Commit the changes
+        db.session.commit()
+        if db.session.new or db.session.dirty or db.session.deleted:
+            print("There are still pending changes after commit!")
+        print("Data committed to the database successfully!")
+        return jsonify({"message": "Onboarding data saved successfully", "success": True})
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error during onboarding: {e}")
+        return jsonify({"message": f"Error saving data: {str(e)}", "success": False}), 500
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -754,6 +825,8 @@ def success():
 @app.route('/cancel/')
 def cancel():
     return redirect(url_for('chat'))
+
+
 
 
 if __name__ == '__main__':

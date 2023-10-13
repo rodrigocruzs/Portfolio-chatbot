@@ -11,7 +11,7 @@ label {
 	display: block;
 	border-radius: 100px;
 	position: relative;
-	overflow: hidden;
+	/* overflow: hidden; */
 	transition: 0.33s;
 }
 
@@ -32,3 +32,31 @@ label {
 	justify-content: left; /* Centering text horizontally */
 	text-align: left;
 }
+
+#personal-info-form label,
+#employment-income-form label,
+#life-goals-form label,
+#next-years-form label,
+#additional-fin-questions-form label,
+#risk-form label,
+#investment-style-form label,
+#risk-fears-form label,
+#capital-debt-form label,
+#future-preferences-form label {
+    color: #474747; 
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 18px;
+	justify-content: left;
+	text-align: left;
+	/* padding-left: 10px;
+	padding-right: 10px; */
+}
+
+
+
+
+
+
+
+

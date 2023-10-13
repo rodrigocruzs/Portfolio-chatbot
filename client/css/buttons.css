@@ -24,9 +24,67 @@
 	align-items: center;
 	justify-content: center;
 	border: 1px solid;
-	border-radius: var(--border-radius-1);
+	border-radius: 20px;
 	width: 60%;
-	background: transparent;
+	background: #3D422E;
+	color: #fff;
 	cursor: pointer;
   font-size: 18px;
+}
+
+.next-button {
+  background: none; /* Removes background */
+  border: none; /* Removes border */
+  color: inherit; /* Inherits color from parent element */
+  font-family: inherit; /* Inherits font from parent element */
+  font-size: inherit; /* Inherits font size from parent element */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  position: fixed; /* Fixed positioning */
+  bottom: 25%; /* Places the button 10% from the bottom of the viewport */
+  right: 35%; /* Places the button 10% from the right of the viewport */
+  z-index: 1000; /* Ensures the button is always on top */
+}
+
+.next-button:focus {
+  outline: none; /* Removes the default focus outline */
+}
+
+.next-button .fas {
+  margin-left: 9px; /* Adds a little space between the text and the icon */
+}
+
+.select-button {
+  display: flex;
+	padding: 8px 0px;
+	align-items: center;
+	justify-content: center;
+	border: 0.5px solid;
+	border-radius: 20px;
+	width: 100%;
+	background: transparent;
+	cursor: pointer;
+  font-size: 15px;
+}
+
+.connect-button {
+	display: flex;
+	padding: 8px 0px;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid;
+	border-radius: 20px;
+	width: 50%;
+	background: #3D422E;
+	color: #fff;
+	cursor: pointer;
+	margin-top: 20px;
+}
+
+.connect-button span {
+	color: var(--colour-3);
+	font-size: 0.875rem;
+}
+
+.connect-button i::before {
+	margin-right: 8px;
 }
